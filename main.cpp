@@ -8,14 +8,34 @@ CreateThreadAffinityMask(DWORD ProcessorNumber) {
   return (1 << ProcessorNumber);
 }
 
+ULONGLONG fibonacci(unsigned int n) {
+    if (n == 0) return 0;
+    if (n == 1) return 1;
+    return fibonacci(n - 1) + fibonacci(n - 2);
+}
+
 DWORD
 ThreadProc(PVOID ThreadParameter) {
 
-  DWORD CoreCount = PtrToUlong(ThreadParameter);
-
+  DWORD CoreNumber = PtrToUlong(ThreadParameter);
+  ULONGLONG StartCount = 0;
+  ULONGLONG StopCount = 0;
+  
   printf("Thread 0x%08X running on core %d.\n",
          GetCurrentThreadId(),
-         CoreCount);
+         CoreNumber);
+
+  //
+  // Run the test load
+  //
+  StartCount = GetTickCount64();
+
+  fibonacci(1000);
+
+  StopCount = GetTickCount64();
+
+  printf("Core %d test ran for %ll ticks.\n",
+         StopCount - StartCount);
 
   return 1;
 }
