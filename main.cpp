@@ -30,11 +30,12 @@ ThreadProc(PVOID ThreadParameter) {
   //
   StartCount = GetTickCount64();
 
-  fibonacci(1000);
+  fibonacci(50);
 
   StopCount = GetTickCount64();
 
-  printf("Core %d test ran for %ll ticks.\n",
+  printf("Core %d test ran for %llu ticks.\n",
+         CoreNumber,
          StopCount - StartCount);
 
   return 1;
